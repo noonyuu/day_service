@@ -151,27 +151,31 @@ function create_emp_account($emp_name, $emp_gender, $emp_tel, $emp_address, $emp
   <title>災害用掲示板</title>
   <!-- tailwind -->
   <link href="./css/output.css" rel="stylesheet" />
+  <!-- css -->
+  <link rel="stylesheet" href="./css/my_style.css" />
   <!-- icon -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body class="bg-gray-100">
   <!-- header -->
-  <header></header>
+    <?php
+    include 'navbar.php';
+    ?>
   <!-- main-->
   <main>
-    <div class="flex flex-wrap" id="tab-id">
+    <div class="flex flex-wrap z-50" id="tab-id">
       <div class="w-full">
         <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-white bg-blue-600" onclick="change_create(event,'user')">ユーザー</a>
+            <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-white bg-blue-600" onclick="change(event,'user')">ユーザー</a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-blue-600 bg-white" onclick="change_create(event,'emp')">職員</a>
+            <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-blue-600 bg-white" onclick="change(event,'emp')">職員</a>
           </li>
         </ul>
 
-        <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+        <div class="z-50 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
           <div class="px-4 py-5 flex-col justify-center">
             <?php
             if (isset($_COOKIE["error"])) {
@@ -315,31 +319,8 @@ function create_emp_account($emp_name, $emp_gender, $emp_tel, $emp_address, $emp
       </div>
     </div>
   </main>
-  <script type="text/javascript">
-    function change_create(event, tabID) {
-      let element = event.target;
-      // 最初のaタグを取得
-      while (element.nodeName !== "A") {
-        element = element.parentNode;
-      }
-      // a要素の親の親要素を取得
-      ulElement = element.parentNode.parentNode;
-      // 取得した要素の中のliの中から全てのaタグを取得
-      aElements = ulElement.querySelectorAll("li > a");
-      // 取得したidの中の(tab-content)の下のdiv取得
-      tabContents = document.getElementById("tab-id").querySelectorAll(".tab-content > div");
-      for (let i = 0; i < aElements.length; i++) {
-        aElements[i].classList.remove("text-white", "bg-blue-600");
-        aElements[i].classList.add("text-blue-600", "bg-white");
-        tabContents[i].classList.add("hidden");
-        tabContents[i].classList.remove("block");
-      }
-      element.classList.remove("text-blue-600", "bg-white");
-      element.classList.add("text-white", "bg-blue-600");
-      document.getElementById(tabID).classList.remove("hidden");
-      document.getElementById(tabID).classList.add("block");
-    }
-  </script>
+  <script type="text/javascript" src="./js/tab_sele.js"></script>
+  <script src="./js/navbar.js"></script>
 </body>
 
 </html>

@@ -37,7 +37,7 @@ function info()
 <body class="bg-back-color">
   <header>
     <?php
-      include 'navbar_admin.php';
+      include 'navbar.php';
     ?>
   </header>
 

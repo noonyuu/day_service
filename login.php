@@ -20,6 +20,7 @@ function user_login($user_name, $user_tel, $pass_save)
       if (($user_tel == $user['user_tel']) && ($user_name == $user['user_name'])){
         // user_idをセッションに保存
         $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['name'] = $user['user_name'];
         //  権限をセッションに保存
         $_SESSION['auth'] = "user";
       } else {
@@ -57,12 +58,15 @@ function emp_login($emp_id, $emp_password, $pass_save)
       $emp = $result->fetch();
       //check password
       if (password_verify($emp_password, $emp[$pass])) {
-        // emp_idをセッションに保存
-        $_SESSION['emp_id'] = $emp_id;
+
         //  権限をセッションに保存
         if ($emp_id < 100) {
+          $_SESSION['admin_id'] = $emp_id;
+          $_SESSION['name'] = $emp['admin_name'];
           $_SESSION['auth'] = "admin";
         } else {
+          $_SESSION['emp_id'] = $emp_id;
+          $_SESSION['name'] = $emp['emp_name'];
           $_SESSION['auth'] = "emp";
         }
       } else {
@@ -150,10 +154,10 @@ if (method_exists($login, $action)) {
     <!-- 切り替えタブ -->
     <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
       <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-white bg-blue-600" onclick="change_login(event,'user')">本人用</a>
+        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-white bg-blue-600" onclick="change(event,'user')">本人用</a>
       </li>
       <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-blue-600 bg-white" onclick="change_login(event,'famiry')">職員用</a>
+        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-blue-600 bg-white" onclick="change(event,'famiry')">職員用</a>
       </li>
     </ul>
 
@@ -228,47 +232,8 @@ if (method_exists($login, $action)) {
     </div>
   </main>
 
-  <script>
-    const password_eye = document.querySelector('#password_eye')
-    password_eye.addEventListener('click', () => {
-      const password = document.querySelector('#emp_password')
-      if (password.type === 'password') {
-        password.type = 'text'
-        password_eye.classList.remove('fa-eye')
-        password_eye.classList.add('fa-eye-slash')
-      } else {
-        password.type = 'password'
-        password_eye.classList.remove('fa-eye-slash')
-        password_eye.classList.add('fa-eye')
-      }
-    })
-  </script>
-
-  <script type="text/javascript">
-    function change_login(event, tabID) {
-      let element = event.target;
-      // 最初のaタグを取得
-      while (element.nodeName !== "A") {
-        element = element.parentNode;
-      }
-      // a要素の親の親要素を取得
-      ulElement = element.parentNode.parentNode;
-      // 取得した要素の中のliの中から全てのaタグを取得
-      aElements = ulElement.querySelectorAll("li > a");
-      // 取得したidの中の(tab-content)の下のdiv取得
-      tabContents = document.getElementById("tab-id").querySelectorAll(".tab-content > div");
-      for (let i = 0; i < aElements.length; i++) {
-        aElements[i].classList.remove("text-white", "bg-blue-600");
-        aElements[i].classList.add("text-blue-600", "bg-white");
-        tabContents[i].classList.add("hidden");
-        tabContents[i].classList.remove("block");
-      }
-      element.classList.remove("text-blue-600", "bg-white");
-      element.classList.add("text-white", "bg-blue-600");
-      document.getElementById(tabID).classList.remove("hidden");
-      document.getElementById(tabID).classList.add("block");
-    }
-  </script>
+  <script src="./js/pass.js"></script>
+  <script type="text/javascript" src="./js/tab_sele.js"></script>
 
 </body>
 

@@ -3,11 +3,11 @@
 session_start();
 require_once dirname(__FILE__) . '/function/db_connection.php';
 
-$admin_id = $_SESSION['emp_id'];
 $env = "";
 // ボタンを押した時にdbの状態が「災害」なら通常、「通常」なら災害に切り替える
 if (isset($_POST['submit'])) {
   // db情報取得
+  $id = $_SESSION['auth'];
   $db = connection();
   $sql = "";
 
@@ -18,9 +18,9 @@ if (isset($_POST['submit'])) {
   }
   // トランザクション開始
   $db->beginTransaction();
-  if ($env =="通常") {
+  if ($env == "通常") {
     $sql = "UPDATE env SET env = '災害', admin_id = $admin_id";
-  } elseif($env == "災害") {
+  } elseif ($env == "災害") {
     $sql = "UPDATE env SET env = '通常', admin_id = $admin_id";
   }
 
@@ -74,7 +74,7 @@ if ($result = $db->query($sql)) {
     <div class="h-screen flex flex-col justify-center items-center">
       <?php
       if ($_SESSION['auth'] == "admin") {
-        ?>
+      ?>
         <div class="text-5xl">現在：<?= $env ?>時用</div>
         <div class="mt-10 max-w-sm w-full">
           <!-- 状況の切り替え -->
@@ -173,25 +173,8 @@ if ($result = $db->query($sql)) {
       <!-- <div class="max-w-sm w-full m-5 flex-auto"></div> -->
     </div>
   </main>
-  <?php
-  // include 'footer.php';
-  ?>
   <script src="./js/navbar.js"></script>
-  <script>
-    const openModalBtn = document.getElementById("open-modal");
-    const closeModalBtn = document.getElementById("close-modal");
-    const modal = document.getElementById("modal");
-
-    openModalBtn.addEventListener("click", () => {
-      modal.classList.remove("hidden");
-      modal.classList.add("open");
-    });
-
-    closeModalBtn.addEventListener("click", () => {
-      modal.classList.remove("open");
-      modal.classList.add("hidden");
-    });
-  </script>
+  <script src="./js/modal.js"></script>
 </body>
 
 </html>
