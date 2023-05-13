@@ -1,21 +1,22 @@
 <?php
-// セッション開始
 session_start();
+
+// セッション開始
+require_once dirname(__FILE__) . '/function/auto_login.php';
 require_once dirname(__FILE__) . '/function/db_connection.php';
 
-$env = "";
 // ボタンを押した時にdbの状態が「災害」なら通常、「通常」なら災害に切り替える
 if (isset($_POST['submit'])) {
   // db情報取得
-  $id = $_SESSION['auth'];
   $db = connection();
-  $sql = "";
+  $admin_id = $_SESSION['admin_id'];
 
   $sql = "SELECT env FROM env";
   if ($result = $db->query($sql)) {
     $envs = $result->fetch(PDO::FETCH_ASSOC);
     $env = $envs['env'];
   }
+
   // トランザクション開始
   $db->beginTransaction();
   if ($env == "通常") {
@@ -64,10 +65,6 @@ if ($result = $db->query($sql)) {
 </head>
 
 <body class="bg-back-color">
-  <?php
-  // include 'navbar_admin.php';
-  ?>
-
 
   <main class="container mx-auto p-0">
     <!-- user nemu -->
@@ -98,7 +95,7 @@ if ($result = $db->query($sql)) {
           <div id="modal" class="modal hidden fixed inset-0 flex items-center justify-center">
             <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
 
-            <div class="modal-container bg-white w-1/3 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-container bg-white w-full md:w-1/3 mx-auto rounded shadow-lg z-50 overflow-y-auto">
               <div class="relative modal-content py-4 px-6">
                 <div class="flex flex-col justify-between items-center pb-3">
                   <button id="close-modal" class="absolute top-0 right-0 flex items-center abstract text-black close-modal p-2">

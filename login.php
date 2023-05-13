@@ -1,8 +1,20 @@
 <?php
 // セッション開始
 session_start();
-require_once dirname(__FILE__) . '/function/db_connection.php';
 require_once dirname(__FILE__) . '/function/auto_login.php';
+require_once dirname(__FILE__) . '/function/db_connection.php';
+
+// 管理者が存在しないとき、管理者登録画面へ遷移
+$db = connection();
+$sql = "SELECT * FROM admin";
+if ($result = $db->query($sql)) {
+  $rowCount = $result->rowCount();
+  if ($rowCount == 0) {
+    $_SESSION['access_granted'] = true;
+    header("location: admin_register.php");
+    exit;
+  }
+}
 
 function user_login($user_name, $user_tel, $pass_save)
 {
@@ -17,7 +29,7 @@ function user_login($user_name, $user_tel, $pass_save)
     if ($rowCount >= 1) {
       $user = $result->fetch();
       //check password
-      if (($user_tel == $user['user_tel']) && ($user_name == $user['user_name'])){
+      if (($user_tel == $user['user_tel']) && ($user_name == $user['user_name'])) {
         // user_idをセッションに保存
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['name'] = $user['user_name'];
@@ -34,6 +46,7 @@ function user_login($user_name, $user_tel, $pass_save)
     $_SESSION['pass_save'] = true;
   }
   header("location: board_home.php");
+  exit;
 }
 
 function emp_login($emp_id, $emp_password, $pass_save)
@@ -43,10 +56,10 @@ function emp_login($emp_id, $emp_password, $pass_save)
   $sql = "";
   $pass = "";
   // IDから情報を取得
-  if($emp_id < 100){
+  if ($emp_id < 100) {
     $sql = "SELECT * FROM admin WHERE admin_id = '$emp_id'";
     $pass = "admin_pass";
-  }else{
+  } else {
     $sql = "SELECT * FROM emptest WHERE emp_id = '$emp_id'";
     $pass = "emp_pass";
   }
@@ -72,6 +85,7 @@ function emp_login($emp_id, $emp_password, $pass_save)
       } else {
         setcookie("login_error", "パスワードが一致しません", time() + 60);
         header("location: login.php");
+        exit;
       }
     }
   }
@@ -82,6 +96,7 @@ function emp_login($emp_id, $emp_password, $pass_save)
   }
   // var_dump($_SESSION['auth']);
   header("location: board_home.php");
+  exit;
 }
 
 class Login
