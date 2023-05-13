@@ -1,7 +1,13 @@
 <?php
 session_start();
-require_once dirname(__FILE__) . '/function/auto_login.php';
+if (isset($_SESSION['name'])) {
+} elseif ($_SERVER['SCRIPT_FILENAME'] === __FILE__) {
+  // 直接アクセスされた場合の処理
+  die('アクセスが許可されていません。');
+  exit;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 

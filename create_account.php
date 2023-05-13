@@ -1,7 +1,10 @@
 <?php
 
 session_start();
-require_once dirname(__FILE__) . '/function/auto_login.php';
+if (!isset($_SESSION['name']) || !$_SESSION['name']) {
+  header('Location:login.php');
+  exit;
+}
 require_once dirname(__FILE__) . '/function/db_connection.php';
 
 $message = "";

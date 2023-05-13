@@ -1,8 +1,10 @@
 <?php
 session_start();
-
+if (!isset($_SESSION['name']) || !$_SESSION['name']) {
+  header('Location:login.php');
+  exit;
+}
 // セッション開始
-require_once dirname(__FILE__) . '/function/auto_login.php';
 require_once dirname(__FILE__) . '/function/db_connection.php';
 
 // ボタンを押した時にdbの状態が「災害」なら通常、「通常」なら災害に切り替える
@@ -65,7 +67,10 @@ if ($result = $db->query($sql)) {
 </head>
 
 <body class="bg-back-color">
-
+  <!-- header -->
+  <?php
+  include 'navbar.php';
+  ?>
   <main class="container mx-auto p-0">
     <!-- user nemu -->
     <div class="h-screen flex flex-col justify-center items-center">

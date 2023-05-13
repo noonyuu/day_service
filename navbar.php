@@ -1,6 +1,10 @@
 <?php
+if ($_SERVER['SCRIPT_FILENAME'] === __FILE__) {
+  // 直接アクセスされた場合の処理
+  die('アクセスが許可されていません。');
+}
 session_start();
-require_once dirname(__FILE__) . '/function/auto_login.php';
+$_SESSION['logout'] = true;
 ?>
 
 <header class="z-[100] fixed top-0 w-full bg-gray-700 border-gray-200">
