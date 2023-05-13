@@ -1,6 +1,10 @@
 <?php
+// if (!defined('HEADER') || !defined('HREF')) {
+//   die('アクセスが許可されていません。');
+// }
 // セッション開始
 session_start();
+require_once dirname(__FILE__) . '/function/auto_login.php';
 require_once dirname(__FILE__) . '/function/db_connection.php';
 
 function info()
@@ -37,7 +41,7 @@ function info()
 <body class="bg-back-color">
   <header>
     <?php
-      include 'navbar.php';
+    include 'navbar.php';
     ?>
   </header>
 

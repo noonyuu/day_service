@@ -1,6 +1,7 @@
 <?php
 // セッション開始
 session_start();
+require_once dirname(__FILE__) . '/function/auto_login.php';
 require_once dirname(__FILE__) . '/function/db_connection.php';
 // true災害
 $env = "";

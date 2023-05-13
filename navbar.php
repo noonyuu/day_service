@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once dirname(__FILE__) . '/function/auto_login.php';
+?>
+
 <header class="z-[100] fixed top-0 w-full bg-gray-700 border-gray-200">
   <nav>
     <div class="h-20 max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
