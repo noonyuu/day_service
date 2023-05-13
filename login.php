@@ -21,7 +21,7 @@ function user_login($user_name, $user_tel, $pass_save)
   // db情報取得
   $db = connection();
   // // ユーザーIDからユーザー情報を取得
-  $sql = "SELECT * FROM usertest WHERE user_tel = '$user_tel'";
+  $sql = "SELECT * FROM user WHERE user_tel = '$user_tel'";
 
   if ($result = $db->query($sql)) {
     //check username
@@ -60,7 +60,7 @@ function emp_login($emp_id, $emp_password, $pass_save)
     $sql = "SELECT * FROM admin WHERE admin_id = '$emp_id'";
     $pass = "admin_pass";
   } else {
-    $sql = "SELECT * FROM emptest WHERE emp_id = '$emp_id'";
+    $sql = "SELECT * FROM emp WHERE emp_id = '$emp_id'";
     $pass = "emp_pass";
   }
 

@@ -64,7 +64,7 @@ function create_user_account($user_name, $user_gender, $user_tel, $user_address,
     exit;
   } else {
     // データベースに同じID or emailが存在しないことを確認する
-    $stmt = $db->prepare("SELECT COUNT(*) FROM usertest WHERE user_mail = ?");
+    $stmt = $db->prepare("SELECT COUNT(*) FROM user WHERE user_mail = ?");
     $stmt->execute([$user_mail]);
     $count = $stmt->fetch(PDO::FETCH_COLUMN);
   }
@@ -80,7 +80,7 @@ function create_user_account($user_name, $user_gender, $user_tel, $user_address,
 
     // トランザクション開始
     $db->beginTransaction();
-    $stmt = $db->prepare("INSERT INTO usertest (user_name, user_pass ,user_gender, user_tel, user_address, user_mail, user_mgr) VALUES (?,?,?,?,?,?,?)");
+    $stmt = $db->prepare("INSERT INTO user (user_name, user_pass ,user_gender, user_tel, user_address, user_mail, user_mgr) VALUES (?,?,?,?,?,?,?)");
 
     try {
       $stmt->execute([$user_name, $hashed_password, $user_gender, $user_tel, $user_address, $user_mail, $user_mgr]);
@@ -110,7 +110,7 @@ function create_emp_account($emp_name, $emp_gender, $emp_tel, $emp_address, $emp
     exit;
   } else {
     // データベースに同じID or emailが存在しないことを確認する
-    $stmt = $db->prepare("SELECT COUNT(*) FROM emptest WHERE emp_mail = ?");
+    $stmt = $db->prepare("SELECT COUNT(*) FROM emp WHERE emp_mail = ?");
     $stmt->execute([$emp_mail]);
     $count = $stmt->fetch(PDO::FETCH_COLUMN);
   }
@@ -125,7 +125,7 @@ function create_emp_account($emp_name, $emp_gender, $emp_tel, $emp_address, $emp
 
     // トランザクション開始
     $db->beginTransaction();
-    $stmt = $db->prepare("INSERT INTO emptest (emp_name, emp_pass ,emp_gender, emp_tel, emp_address, emp_mail) VALUES (?,?,?,?,?,?)");
+    $stmt = $db->prepare("INSERT INTO emp (emp_name, emp_pass ,emp_gender, emp_tel, emp_address, emp_mail) VALUES (?,?,?,?,?,?)");
     try {
       $stmt->execute([$emp_name, $hashed_password, $emp_gender, $emp_tel, $emp_address, $emp_mail]);
       $db->commit();

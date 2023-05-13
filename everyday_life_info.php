@@ -12,7 +12,7 @@ function info()
 {
   $db = connection();
   $sql = "SELECT u.user_name, i.user_state, i.user_comment ,i.time
-        FROM usertest as u
+        FROM user as u
         INNER JOIN user_info as i
         ON u.user_id = i.user_id
         WHERE i.env = '通常'";
