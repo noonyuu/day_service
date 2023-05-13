@@ -1,11 +1,10 @@
 <?php
-// データを保存
-require_once dirname(__FILE__) . '/function/db_connection.php';
 
 session_start();
-// $_SESSION["error"] = "";
-$message = "";
+require_once dirname(__FILE__) . '/function/auto_login.php';
+require_once dirname(__FILE__) . '/function/db_connection.php';
 
+$message = "";
 
 class CreateAccount
 {
@@ -113,7 +112,6 @@ function create_emp_account($emp_name, $emp_gender, $emp_tel, $emp_address, $emp
     $count = $stmt->fetch(PDO::FETCH_COLUMN);
   }
 
-
   if ($count > 0) {
     $message = "メールアドレスが既に使用されています。別のメールアドレスを使用してください。";
     setcookie("error", $message, time() + 60);
@@ -159,9 +157,9 @@ function create_emp_account($emp_name, $emp_gender, $emp_tel, $emp_address, $emp
 
 <body class="bg-gray-100">
   <!-- header -->
-    <?php
-    include 'navbar.php';
-    ?>
+  <?php
+  include 'navbar.php';
+  ?>
   <!-- main-->
   <main>
     <div class="flex flex-wrap z-50" id="tab-id">
@@ -172,6 +170,9 @@ function create_emp_account($emp_name, $emp_gender, $emp_tel, $emp_address, $emp
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
             <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-blue-600 bg-white" onclick="change(event,'emp')">職員</a>
+          </li>
+          <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+            <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-blue-600 bg-white" onclick="change(event,'admin')">管理者</a>
           </li>
         </ul>
 
@@ -312,6 +313,14 @@ function create_emp_account($emp_name, $emp_gender, $emp_tel, $emp_address, $emp
                     </div>
                   </form>
                 </div>
+              </div>
+              <!-- admin -->
+              <div class="hidden" id="admin">
+                <?php
+                $_SESSION['access_granted'] = true;
+                $_SESSION['show'] = true;
+                include('admin_register.php');
+                ?>
               </div>
             </div>
           </div>
