@@ -14,6 +14,12 @@ tr {
 .vertical-line td:not(:last-child) {
   border-right: 1px solid #e2e8f0;
 }
-.vertical-line td{
+.vertical-line td {
   border-bottom: 1px solid rgb(17 24 39);
+}
+
+select:invalid {
+  color: rgb(107 114 128);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
