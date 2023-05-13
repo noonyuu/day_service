@@ -45,7 +45,7 @@ function user_login($user_name, $user_tel, $pass_save)
     //ログイン保持する
     $_SESSION['pass_save'] = true;
   }
-  header("location: loading.php");
+  header("location: board_home.php");
   exit;
 }
 
@@ -95,7 +95,7 @@ function emp_login($emp_id, $emp_password, $pass_save)
     $_SESSION['pass_save'] = true;
   }
   // var_dump($_SESSION['auth']);
-  header("location: loading.php");
+  header("location: board_home.php");
   exit;
 }
 
