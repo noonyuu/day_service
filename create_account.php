@@ -6,7 +6,7 @@ if (!isset($_SESSION['name']) || !$_SESSION['name']) {
   exit;
 }
 require_once dirname(__FILE__) . '/function/db_connection.php';
-require_once dirname(__FILE__) . '/function/emp_select.php';
+require_once dirname(__FILE__) . '/function/select.php';
 
 $message = "";
 
