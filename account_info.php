@@ -1,6 +1,13 @@
 <?php
+// セッション開始
+session_start();
+if (!isset($_SESSION['name']) || !$_SESSION['name']) {
+  header('Location:login.php');
+  exit;
+}
 require_once dirname(__FILE__) . '/function/db_connection.php';
 require_once dirname(__FILE__) . '/function/select.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -61,7 +68,7 @@ require_once dirname(__FILE__) . '/function/select.php';
                         while ($user = $users->fetch(PDO::FETCH_ASSOC)) {
                         ?>
                           <tr>
-                            <td><?= $user['user_id'] ?></td>
+                            <td style="background-color: #ccc;" onclick="location.href='update_account.php?id=<?= $user['user_id'] ?>&amp;auth=user'"><?= $user['user_id'] ?></td>
                             <td><?= $user['user_name'] ?></td>
                             <td><?= $user['user_gender'] ?></td>
                             <td><?= $user['user_tel'] ?></td>
@@ -97,7 +104,7 @@ require_once dirname(__FILE__) . '/function/select.php';
                         while ($emp = $emps->fetch(PDO::FETCH_ASSOC)) {
                         ?>
                           <tr>
-                            <td><?= $emp['emp_id'] ?></td>
+                            <td style="background-color: #ccc;" onclick="location.href='update_account.php?id=<?= $emp['emp_id'] ?>&amp;auth=emp'"><?= $emp['emp_id'] ?></td>
                             <td><?= $emp['emp_name'] ?></td>
                             <td><?= $emp['emp_gender'] ?></td>
                             <td><?= $emp['emp_tel'] ?></td>
@@ -116,8 +123,8 @@ require_once dirname(__FILE__) . '/function/select.php';
               <div class="hidden" id="admin">
                 <div class="flex-row justify-center">
                   <h1 class="text-center my-4 mx-auto">管理者アカウント</h1>
-                  <table class="table w-full text-center mt-5 border border-gray-900 vertical-line">
-                    <div class="table-over">
+                  <div class="table-over">
+                    <table class="table w-full text-center mt-5 border border-gray-900 vertical-line">
                       <thead class="bg-gray-900 uppercase text-white">
                         <th>ID</th>
                         <th>名前</th>
@@ -132,7 +139,7 @@ require_once dirname(__FILE__) . '/function/select.php';
                         while ($admin = $admins->fetch(PDO::FETCH_ASSOC)) {
                         ?>
                           <tr>
-                            <td><?= $admin['admin_id'] ?></td>
+                            <td style="background-color: #ccc;" onclick="location.href='update_account.php?id=<?= $admin['admin_id'] ?>&amp;auth=admin'"><?= $admin['admin_id'] ?></td>
                             <td><?= $admin['admin_name'] ?></td>
                             <td><?= $admin['admin_gender'] ?></td>
                             <td><?= $admin['admin_tel'] ?></td>
@@ -143,14 +150,14 @@ require_once dirname(__FILE__) . '/function/select.php';
                         }
                         ?>
                       </tbody>
-                  </table>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   </main>
 
   <script type="text/javascript" src="./js/tab_sele.js"></script>
