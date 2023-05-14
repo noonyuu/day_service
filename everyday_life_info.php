@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Tokyo');
 // セッション開始
 session_start();
 if (!isset($_SESSION['name']) || !$_SESSION['name']) {

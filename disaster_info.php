@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Tokyo');
 // セッション開始
 session_start();
 if (!isset($_SESSION['name']) || !$_SESSION['name']) {
@@ -50,11 +51,10 @@ function info()
 </head>
 
 <body class="bg-back-color">
-  <header>
-    <?php
-    include 'navbar.php';
-    ?>
-  </header>
+  <!-- header -->
+  <?php
+  include 'navbar.php';
+  ?>
 
   <main class="container p-0 mt-5 mx-auto">
     <div class="flex-row justify-center mx-5">

@@ -250,8 +250,6 @@ function create_emp_account($emp_name, $emp_gender, $emp_tel, $emp_address, $emp
                         <input type="number" name="user_mgr" id="user_mgr" class="block p-4 w-full h-20 text-lg text-black rounded-lg border-2 bg-white focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
                         <label for="user_mgr" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-2 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 left-1">担当職員ID</label>
                       </div> -->
-
-
                     <!-- password -->
                     <div class="relative mb-5 m-5 md:w-3/4 mx-auto">
                       <input type="password" name="user_password" id="user_password" class="block p-4 w-full h-20 text-lg text-black rounded-lg border-2 bg-white focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />

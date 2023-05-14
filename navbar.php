@@ -23,7 +23,7 @@ $_SESSION['logout'] = true;
         </svg>
       </button>
       <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-        <ul class="z-[100] font-medium flex flex-col bg-gray-600 p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0">
+        <ul class="z-[100] font-medium flex flex-col  bg-gray-600 p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0">
           <li>
             <a href="board_home.php" class="block py-2 pl-3 pr-4 text-white rounded">Home</a>
           </li>
