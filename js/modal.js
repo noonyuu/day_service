@@ -1,13 +1,14 @@
-const openModalBtn = document.getElementById("open-modal");
-const closeModalBtn = document.getElementById("close-modal");
+const openModal = document.getElementById("open-modal");
+const closeModal = document.getElementById("close-modal");
 const modal = document.getElementById("modal");
 
-openModalBtn.addEventListener("click", () => {
+openModal.addEventListener("click", (event) => {
+  event.stopPropagation(); // クリックイベントの伝播を停止
   modal.classList.remove("hidden");
   modal.classList.add("open");
 });
 
-closeModalBtn.addEventListener("click", () => {
+closeModal.addEventListener("click", () => {
   modal.classList.remove("open");
   modal.classList.add("hidden");
 });
