@@ -1,10 +1,10 @@
 <?php
+// セッション開始
 session_start();
 if (!isset($_SESSION['name']) || !$_SESSION['name']) {
   header('Location:login.php');
   exit;
 }
-// セッション開始
 require_once dirname(__FILE__) . '/function/db_connection.php';
 
 // ボタンを押した時にdbの状態が「災害」なら通常、「通常」なら災害に切り替える
@@ -94,6 +94,10 @@ if ($result = $db->query($sql)) {
           <!-- ユーザー登録 -->
           <div class="border border-gray-800 bg-white rounded-2xl flex flex-col justify-between leading-normal my-5" onclick="location.href='./create_account.php'">
             <div class="text-black text-3xl flex justify-center py-3">ユーザー登録</div>
+          </div>
+          <!-- ユーザー一覧 -->
+          <div class="border border-gray-800 bg-white rounded-2xl flex flex-col justify-between leading-normal my-5" onclick="location.href='./account_info.php'">
+            <div class="text-black text-3xl flex justify-center py-3">ユーザー一覧</div>
           </div>
 
           <!-- 状態切り替え時に使用するモーダル -->

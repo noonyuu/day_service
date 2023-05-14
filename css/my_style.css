@@ -9,6 +9,7 @@ thead th {
 
 tr {
   background-color: #ffffff;
+  height: 3rem;
 }
 
 .vertical-line td:not(:last-child) {
@@ -22,4 +23,18 @@ select:invalid {
   color: rgb(107 114 128);
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.table-over{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+table {
+    width: 100%;
+    min-width: 750px;
 }
