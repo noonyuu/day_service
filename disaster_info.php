@@ -6,15 +6,26 @@ if (!isset($_SESSION['name']) || !$_SESSION['name']) {
   exit;
 }
 require_once dirname(__FILE__) . '/function/db_connection.php';
+require_once dirname(__FILE__) . '/function/select.php';
 
 function info()
 {
+  // 今日の日付を取得
+  $today = date("Y-m-d");
+
   $db = connection();
-  $sql = "SELECT u.user_name, i.user_state,i.user_injury, i.user_comment ,i.time
-        FROM user as u
-        INNER JOIN user_info as i
+  $sql = "SELECT u.user_name, i.user_state, i.user_injury, i.user_comment, i.time
+        FROM user AS u
+        INNER JOIN user_info AS i 
         ON u.user_id = i.user_id
         WHERE i.env = '災害'";
+
+  if (isset($_POST['d_selected_date'])) {
+    $time = $_POST['d_selected_date'];
+    $sql .= " AND i.time = '$time'";
+  } else {
+    $sql .= " AND i.time = '$today'";
+  }
   if ($result = $db->query($sql)) {
     return $result;
   } else {
@@ -46,9 +57,38 @@ function info()
   </header>
 
   <main class="container p-0 mt-5 mx-auto">
-    <div class="justify-center mx-5">
-      <div class="flex-row">
-        <div class="flex justify-center text-5xl font-bold">安否確認</div>
+    <div class="flex-row justify-center mx-5">
+      <h1 class="flex justify-center text-3xl font-bold">安否確認報告一覧</h1>
+      <div class="flex justify-center my-5">
+        <div class="flex items-center ml-auto">
+          <select name="day" id="" onchange="d_day_change(this)">
+            <?php
+            $info_date = info_date();
+            $today = date("Y-n-j");
+            if (!$info_date == 0) :
+              $old_year = date("Y", strtotime($info_date['old']));
+              $old_month = date("n", strtotime($info_date['old']));
+              $old_day = date("j", strtotime($info_date['old']));
+
+              $latest_year = date("Y", strtotime($info_date['latest']));
+              $latest_month = date("n", strtotime($info_date['latest']));
+              $latest_day = date("j", strtotime($info_date['latest']));
+
+              for ($i = $old_year; $i <= $latest_year; $i++) :
+                for ($j = $old_month; $j <= $latest_month; $j++) :
+                  for ($k = $old_day; $k <= $latest_day; $k++) :
+                    echo "<option value='" . $i . "-" . $j . "-" . $k . "'" . (($i . "-" . $j . "-" . $k) == $today ? 'selected' : '') . ">" . $i . "年" . $j . "月" . $k . "日" . "</option>";
+                  endfor;
+                endfor;
+              endfor;
+            else :
+              echo "<option value=''>データがありません</option>";
+            endif;
+            ?>
+          </select>
+        </div>
+      </div>
+      <div class="table-over">
         <table class="table w-full text-center mt-5 border border-gray-900 vertical-line">
           <thead class="bg-gray-900 uppercase text-white">
             <th>名前</th>
@@ -57,17 +97,17 @@ function info()
             <th>コメント</th>
             <th>日時</th>
           </thead>
-          <tbody>
+          <tbody id="table-body">
             <?php
             $infos = info();
             while ($info = $infos->fetch(PDO::FETCH_ASSOC)) {
             ?>
               <tr>
-                <td class="h-12 w-[25]"><?= $info['user_name'] ?></td>
-                <td class="h-12 w-[15]"><?= $info['user_state'] ?></td>
-                <td class="h-12 w-[15]"><?= $info['user_injury'] ?></td>
-                <td class="h-12 w-[25]"><?= $info['user_comment'] ?></td>
-                <td class="h-12 w-[20]"><?= $info['time'] ?></td>
+                <td class="h-12"><?= $info['user_name'] ?></td>
+                <td class="h-12"><?= $info['user_state'] ?></td>
+                <td class="h-12"><?= $info['user_injury'] ?></td>
+                <td class="h-12"><?= htmlspecialchars($info['user_comment']) ?></td>
+                <td class="h-12"><?= $info['time'] ?></td>
               </tr>
             <?php
             }
@@ -77,9 +117,8 @@ function info()
       </div>
     </div>
   </main>
-  <?php
-  ?>
   <script src="./js/navbar.js"></script>
+  <script src="./js/ajax.js"></script>
 </body>
 
 </html>

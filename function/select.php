@@ -19,7 +19,7 @@ function user_select()
           FROM user as u
           INNER JOIN emp as e 
           ON u.user_mgr = e.emp_id";
-          
+
   if ($result = $db->query($sql)) {
     return $result;
   } else {
@@ -34,6 +34,23 @@ function admin_select()
 
   if ($result = $db->query($sql)) {
     return $result;
+  } else {
+    die('データベース接続エラー');
+  }
+  exit;
+}
+function info_date()
+{
+  $db = connection();
+  $sql = "SELECT MIN(time) as old, Max(time) as latest FROM user_info";
+
+  if ($result = $db->query($sql)) {
+    $rowCount = $result->rowCount(); // 件数取得
+    if ($rowCount > 0) {
+      return $result->fetch(PDO::FETCH_ASSOC);
+    } else {
+      return 0;
+    }
   } else {
     die('データベース接続エラー');
   }
