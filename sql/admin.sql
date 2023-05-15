@@ -1,0 +1,12 @@
+-- CREATE TABLE `admin` (
+--   `admin_id` int(5) NOT NULL AUTO_INCREMENT,
+--   `admin_pass` varchar(256) NOT NULL,
+--   `admin_name` varchar(20) NOT NULL,
+--   `admin_gender` char(2) NOT NULL,
+--   `admin_tel` varchar(11) NOT NULL,
+--   `admin_address` varchar(100) NOT NULL,
+--   `admin_mail` varchar(50) DEFAULT NULL,
+--   PRIMARY KEY (`admin_id`),
+--   UNIQUE KEY `admin_tel` (`admin_tel`),
+--   UNIQUE KEY `admin_mail` (`admin_mail`)
+-- );

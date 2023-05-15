@@ -1,0 +1,15 @@
+-- CREATE TABLE `user` (
+--   `user_id` int(5) NOT NULL AUTO_INCREMENT,
+--   `user_name` varchar(30) NOT NULL,
+--   `user_pass` varchar(256) NOT NULL,
+--   `user_gender` char(2) NOT NULL,
+--   `user_tel` varchar(11) NOT NULL,
+--   `user_address` varchar(100) NOT NULL,
+--   `user_mail` varchar(50) NOT NULL,
+--   `user_mgr` int(5) NOT NULL,
+--   PRIMARY KEY (`user_id`),
+--   UNIQUE KEY `user_tel` (`user_tel`),
+--   UNIQUE KEY `user_mail` (`user_mail`),
+--   KEY `user_mgr` (`user_mgr`) USING BTREE,
+--   CONSTRAINT `board_idfk_1` FOREIGN KEY (`user_mgr`) REFERENCES `emp` (`emp_id`) ON UPDATE CASCADE
+-- );

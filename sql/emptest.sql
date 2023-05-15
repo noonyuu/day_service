@@ -1,0 +1,12 @@
+-- CREATE TABLE `emp` (
+--   `emp_id` int(5) NOT NULL AUTO_INCREMENT,
+--   `emp_name` varchar(20) NOT NULL,
+--   `emp_pass` varchar(256) NOT NULL,
+--   `emp_gender` char(2) NOT NULL,
+--   `emp_tel` varchar(11) NOT NULL,
+--   `emp_address` text NOT NULL,
+--   `emp_mail` varchar(50) NOT NULL,
+--   PRIMARY KEY (`emp_id`),
+--   UNIQUE KEY `employee_tel` (`emp_tel`),
+--   UNIQUE KEY `employee_mail` (`emp_mail`)
+-- ) AUTO_INCREMENT=100;
