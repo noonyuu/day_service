@@ -2,59 +2,69 @@
 // セッション開始
 session_start();
 if (!isset($_SESSION['name']) || !$_SESSION['name']) {
-  header('Location:login.php');
+  header('Location: login.php');
   exit;
 }
-require_once dirname(__FILE__) . '/function/db_connection.php';
-// true災害
-$env = "";
 
-// db情報取得
+require_once dirname(__FILE__) . '/function/db_connection.php';
+
 $db = connection();
 
+// 環境情報の取得
 $sql = "SELECT env FROM env";
-if ($result = $db->query($sql)) {
-  $envs = $result->fetch(PDO::FETCH_ASSOC);
-  $env = $envs['env'];
-}
+$result = $db->query($sql);
+$envs = $result->fetch(PDO::FETCH_ASSOC);
+$env = $envs['env'];
 
-// 通常時
-if (isset($_POST['nomal_btn'])) {
-  $user_state = $_POST['state'];
-  $user_injury = $_POST['condition'];
-  $user_comment = nl2br(htmlspecialchars($_POST['comment']));
-
-  // db情報取得
-  $db = connection();
-  //ユーザーIDからユーザー情報を取得
+// 通常時の処理
+if (isset($_POST['normal_btn'])) {
+  // ユーザーIDからユーザー情報を取得
   $user_id = $_SESSION['user_id'];
 
-  $sql = "SELECT env FROM env";
-  if ($result = $db->query($sql)) {
-    $envs = $result->fetch(PDO::FETCH_ASSOC);
-    $env = $envs['env'];
+  // 災害環境かどうかの判定
+  $is_disaster_env = ($env === "災害");
+
+  // 入力値の取得
+  $user_state = $_POST['condition'];
+  $user_comment = nl2br(htmlspecialchars($_POST['comment']));
+  $user_injury = null;
+
+  // 災害環境の場合、怪我の状態も取得
+  if ($is_disaster_env) {
+    $user_injury = $_POST['state'];
   }
 
-  // トランザクション開始
-  $db->beginTransaction();
-  $stmt = $db->prepare("INSERT INTO user_info (user_injury, user_state ,user_comment, `time`, user_id, env) VALUES (?,?,?,now(),?,?)");
   try {
-    $stmt->execute([$user_injury, $user_state, $user_comment, $user_id, $env]);
+    // トランザクション開始
+    $db->beginTransaction();
+
+    // クエリの準備と実行
+    if ($is_disaster_env) {
+      $stmt = $db->prepare("INSERT INTO user_info (user_injury, user_state, user_comment, `time`, user_id, env) VALUES (?, ?, ?, now(), ?, ?)");
+      $stmt->execute([$user_injury, $user_state, $user_comment, $user_id, $env]);
+    } else {
+      $stmt = $db->prepare("INSERT INTO user_info (user_state, user_comment, `time`, user_id, env) VALUES (?, ?, now(), ?, ?)");
+      $stmt->execute([$user_state, $user_comment, $user_id, $env]);
+    }
+
+    // トランザクションのコミット
     $db->commit();
+
+    // リダイレクト
+    header("Location: board_home.php");
+    exit;
   } catch (PDOException $e) {
+    // トランザクションのロールバック
     $db->rollback();
     echo $e->getMessage();
     return false;
   } finally {
+    // データベース接続の終了
     $db = null;
-    header("location: board_home.php");
-    exit;
   }
-
-  // $sql = "SELECT * FROM user_info WHERE user_id = '$user_id'";
-  exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -159,7 +169,7 @@ if (isset($_POST['nomal_btn'])) {
           ?>
           <!-- 送信ボタン -->
           <div class="flex justify-center <!--end mr-5-->">
-            <button type="submit" name="nomal_btn" class="w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded-3xl">送信</button>
+            <button type="submit" name="normal_btn" class="w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded-3xl">送信</button>
           </div>
         </form>
       </div>
