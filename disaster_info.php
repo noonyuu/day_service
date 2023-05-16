@@ -65,6 +65,9 @@ function info()
             <?php
             $info_date = info_date();
             $today = date("Y-n-j");
+            if ($today != date("Y-n-j", strtotime($info_date['latest']))) {
+              $today = date("Y-n-j", strtotime($info_date['latest']));
+            }
             if (!$info_date == 0) :
               $old_year = date("Y", strtotime($info_date['old']));
               $old_month = date("n", strtotime($info_date['old']));
